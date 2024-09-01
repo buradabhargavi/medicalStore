@@ -21,10 +21,10 @@ function MedicineForm({ setOpenForm }) {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     const id = Date.now().toString();
     const updatedDetails = { ...medicineDetails, id };
-    e.preventDefault();
-    //console.log(medicineDetails);
+    // console.log("data is:", medicineDetails);
     ctx.addItem(updatedDetails);
   };
 
