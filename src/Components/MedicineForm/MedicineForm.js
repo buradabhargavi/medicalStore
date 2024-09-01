@@ -24,8 +24,8 @@ function MedicineForm({ setOpenForm }) {
     e.preventDefault();
     const id = Date.now().toString();
     const updatedDetails = { ...medicineDetails, id };
-    // console.log("data is:", medicineDetails);
     ctx.addItem(updatedDetails);
+    setOpenForm(false);
   };
 
   return (

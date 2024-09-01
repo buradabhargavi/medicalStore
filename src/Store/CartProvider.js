@@ -8,14 +8,14 @@ function CartProvider({ children }) {
   const fetchCart = async () => {
     try {
       const res = await axios.get(
-        "https://crudcrud.com/api/1856563a86f14a328671194a5e701ed1/cart"
+        "https://crudcrud.com/api/7d1aeda37b5642cb88fc667bbc8bd4f8/cart"
       );
-      console.log(res.data);
       setCartItems(res.data);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     fetchCart();
   }, []);
@@ -26,24 +26,43 @@ function CartProvider({ children }) {
       if (existing) {
         const { _id, ...cartItem } = existing;
         await axios.put(
-          `https://crudcrud.com/api/1856563a86f14a328671194a5e701ed1/cart/${_id}`,
+          `https://crudcrud.com/api/7d1aeda37b5642cb88fc667bbc8bd4f8/cart/${_id}`,
           { ...cartItem, Quantity: cartItem.Quantity + 1 }
         );
       } else {
         const { _id, ...cartItem } = item;
         await axios.post(
-          "https://crudcrud.com/api/1856563a86f14a328671194a5e701ed1/cart",
+          "https://crudcrud.com/api/7d1aeda37b5642cb88fc667bbc8bd4f8/cart",
           { ...cartItem, Quantity: 1 }
         );
       }
+
       fetchCart();
     } catch (error) {
       console.log(error);
     }
   };
+
+  const clearCart = async () => {
+    try {
+      await Promise.all(
+        cartItems.map((item) =>
+          axios.delete(
+            `https://crudcrud.com/api/7d1aeda37b5642cb88fc667bbc8bd4f8/cart/${item._id}`
+          )
+        )
+      );
+
+      fetchCart();
+    } catch (error) {
+      console.error("Error clearing the cart:", error);
+    }
+  };
+
   const contextVal = {
     cartItems,
     addToCart,
+    clearCart,
   };
 
   return (

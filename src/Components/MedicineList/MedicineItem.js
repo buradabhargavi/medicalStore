@@ -5,7 +5,7 @@ import { ItemsContext } from "../../Store/ItemsContext";
 
 function MedicineItem({ item }) {
   const { addToCart } = useContext(CartContext);
-  const { deleteItem, updateItem } = useContext(ItemsContext);
+  const { deleteItem, updateItemQuantity } = useContext(ItemsContext);
   // console.log(addToCart);
 
   return (
@@ -23,7 +23,9 @@ function MedicineItem({ item }) {
       <Typography variant="p">{item.medicineName}</Typography>
       <Typography variant="p">{item.description}</Typography>
       <Typography variant="p">{item.Price}</Typography>
-      <Typography variant="p">{item.Quantity}</Typography>
+      <Typography variant="p">
+        {item.Quantity > 0 ? item.Quantity : "OUT OF STOCK"}
+      </Typography>
       <Box sx={{ display: "flex", gap: "10px" }}>
         {/*  <Button
           sx={{ background: "yellow", color: "black" }}
@@ -40,7 +42,10 @@ function MedicineItem({ item }) {
       </Box>
       <Button
         sx={{ background: "green", color: "black" }}
-        onClick={() => addToCart(item)}
+        onClick={() => {
+          addToCart(item);
+          updateItemQuantity(item._id, 1);
+        }}
       >
         Add to cart
       </Button>

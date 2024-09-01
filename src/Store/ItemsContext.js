@@ -4,4 +4,5 @@ export const ItemsContext = React.createContext({
   addItem: (item) => {},
   updateItem: () => {},
   deleteItem: () => {},
+  updateItemQuantity: () => {},
 });

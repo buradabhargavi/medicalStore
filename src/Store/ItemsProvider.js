@@ -8,13 +8,14 @@ const ItemsProvider = ({ children }) => {
   const fetchItems = async () => {
     try {
       const response = await axios.get(
-        "https://crudcrud.com/api/1856563a86f14a328671194a5e701ed1/items"
+        "https://crudcrud.com/api/7d1aeda37b5642cb88fc667bbc8bd4f8/items"
       );
       setItems(response.data);
     } catch (error) {
       console.log("Error fetching items:", error);
     }
   };
+
   useEffect(() => {
     fetchItems();
   }, []);
@@ -22,10 +23,9 @@ const ItemsProvider = ({ children }) => {
   const addItem = async (item) => {
     try {
       await axios.post(
-        "https://crudcrud.com/api/1856563a86f14a328671194a5e701ed1/items",
+        "https://crudcrud.com/api/7d1aeda37b5642cb88fc667bbc8bd4f8/items",
         item
       );
-
       fetchItems();
     } catch (error) {
       console.log(error);
@@ -35,7 +35,7 @@ const ItemsProvider = ({ children }) => {
   const deleteItem = async (id) => {
     try {
       await axios.delete(
-        `https://crudcrud.com/api/1856563a86f14a328671194a5e701ed1/items/${id}`
+        `https://crudcrud.com/api/7d1aeda37b5642cb88fc667bbc8bd4f8/items/${id}`
       );
       setItems((prevItems) => prevItems.filter((item) => item._id !== id));
     } catch (error) {
@@ -43,10 +43,33 @@ const ItemsProvider = ({ children }) => {
     }
   };
 
+  const updateItemQuantity = async (itemId, quantityChange) => {
+    try {
+      const itemResponse = await axios.get(
+        `https://crudcrud.com/api/7d1aeda37b5642cb88fc667bbc8bd4f8/items/${itemId}`
+      );
+      const item = itemResponse.data;
+      const updatedQuantity = (item.Quantity - quantityChange).toString();
+      const { _id, ...i } = item;
+      if (item.Quantity > 0) {
+        await axios.put(
+          `https://crudcrud.com/api/7d1aeda37b5642cb88fc667bbc8bd4f8/items/${itemId}`,
+          { ...i, Quantity: updatedQuantity }
+        );
+      } else {
+        console.log("out of stock");
+      }
+      fetchItems();
+    } catch (error) {
+      console.log("Error updating item quantity:", error);
+    }
+  };
+
   const contextValue = {
     items,
     addItem,
     deleteItem,
+    updateItemQuantity,
   };
 
   return (
