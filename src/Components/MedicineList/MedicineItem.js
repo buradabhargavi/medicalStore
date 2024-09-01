@@ -22,7 +22,7 @@ function MedicineItem({ item }) {
     >
       <Typography variant="p">{item.medicineName}</Typography>
       <Typography variant="p">{item.description}</Typography>
-      <Typography variant="p">{item.Price}</Typography>
+      <Typography variant="p">{`₹${item.Price}`}</Typography>
       <Typography variant="p">
         {item.Quantity > 0 ? item.Quantity : "OUT OF STOCK"}
       </Typography>

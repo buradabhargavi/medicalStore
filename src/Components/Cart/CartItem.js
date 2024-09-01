@@ -15,7 +15,7 @@ function CartItem({ item }) {
       >
         <Typography variant="p">{item.medicineName}</Typography>
         <Typography variant="p">{item.Quantity}</Typography>
-        <Typography variant="p">{item.Price}</Typography>
+        <Typography variant="p">{`₹${item.Price}`}</Typography>
         <Typography variant="body1">
           {calculateTotal(item).toFixed(2)}
         </Typography>
